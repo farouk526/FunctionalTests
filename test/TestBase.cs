@@ -4,6 +4,7 @@ using OpenQA.Selenium.Support.UI;
 using NUnit.Framework.Internal;
 using OpenQA.Selenium.DevTools.V107.Animation;
 using NUnit.Framework.Interfaces;
+using OpenQA.Selenium.DevTools;
 
 namespace test;
 
@@ -15,6 +16,7 @@ public abstract class TestBase
         get => WebDriverFactory.Driver;
     }
 
+
     //consts
     private const string ERP_URL = "http://197.13.18.37:5000/";
     private const string LOGIN_INPUT = "email1";
@@ -22,9 +24,9 @@ public abstract class TestBase
     private const string LOGIN = "Administrateur";
     private const string PASSWORD = "1234@Test";
     private const string LOGIN_BUTTON = "/html/body/app-root/app-account/app-login/div/div/div/div/div[2]/button";
+    private const string HOME_PAGE_URL = "http://197.13.18.37:5000/app/home";
 
 
-  
 
     [TearDown]
     public void TearDown()
@@ -33,17 +35,17 @@ public abstract class TestBase
         var testName = GetCurrentTestName();
         WebDriverFactory.CloseDriver();
     }
-
-
-    public void LoginAsAdmin()
+    public ResultState GetCurrentTestResult()
     {
-        WebDriver.Navigate().GoToUrl(ERP_URL);
-        var loginInput = WaitForElementIsVisible(By.Id(LOGIN_INPUT));
-        loginInput.SendKeys(LOGIN);
-        var mdpInput = WaitForElementIsVisible(By.XPath(PASSWORD_INPUT));
-        mdpInput.SendKeys(PASSWORD);
-        var loginBtn = WaitForElementIsVisible(By.XPath(LOGIN_BUTTON));
-        loginBtn.Click();
+        TestExecutionContext context = TestExecutionContext.CurrentContext;
+        var result = context.CurrentResult;
+        return result.ResultState;
+    }
+    public string GetCurrentTestName()
+    {
+        TestExecutionContext context = TestExecutionContext.CurrentContext;
+        var result = context.CurrentTest.Name;
+        return result;
     }
 
     public IWebElement WaitForElementIsVisible(By value, string elementName = null)
@@ -85,16 +87,16 @@ public abstract class TestBase
         return element;
     }
 
-    public ResultState GetCurrentTestResult()
+    public void LoginAsAdmin()
     {
-        TestExecutionContext context = TestExecutionContext.CurrentContext;
-        var result = context.CurrentResult;
-        return result.ResultState;
-    }
-    public string GetCurrentTestName()
-    {
-        TestExecutionContext context = TestExecutionContext.CurrentContext;
-        var result = context.CurrentTest.Name;
-        return result;
+        WebDriver.Navigate().GoToUrl(ERP_URL);
+        var loginInput = WaitForElementIsVisible(By.Id(LOGIN_INPUT));
+        loginInput.SendKeys(LOGIN);
+        var mdpInput = WaitForElementIsVisible(By.XPath(PASSWORD_INPUT));
+        mdpInput.SendKeys(PASSWORD);
+        var loginBtn = WaitForElementIsVisible(By.XPath(LOGIN_BUTTON));
+        Thread.Sleep(1000);
+        loginBtn.Click();
+        Thread.Sleep(1000);
     }
 }
