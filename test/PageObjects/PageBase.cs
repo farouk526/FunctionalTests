@@ -5,6 +5,7 @@ using OpenQA.Selenium.DevTools.V107.Network;
 using OpenQA.Selenium.Internal;
 using OpenQA.Selenium.Support.UI;
 using PageObjects.paie.parametres;
+using PageObjects.PARAMBASE.Autres_paramètres;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using Tests.paie.parametre.Emplois;
@@ -23,6 +24,8 @@ namespace PageObjects;
 
     private const string HOME_PAGE_URL = "http://197.13.18.37:5000/app/home";
     private const string EMPLOIS_PAGE_URL = "http://197.13.18.37:5000/app/paie/parametres/emploi/emploi-list";
+    private const string GRILLE_PAGE_URL = "http://197.13.18.37:5000/app/paie/parametres/grille/grille-list";
+    private const string ANNEE_PAGE_URL = "http://197.13.18.37:5000/app/param-base/autres-params/annee/annees-list";
     private const string PAGES_NUMBERS = "/html/body/app-root/app-layout/div/div[2]/div/app-emploi/tsi-generic-crud/div/tsi-generic-grid/p-table/div/p-paginator/div/span[2]/button";
     private const string NEXT_BUTTON = "//*[@id=\"pr_id_4\"]/p-paginator/div/button[3]";
     private const string ROW_NUMBER = "//*[@id=\"pr_id_4-table\"]/tbody/tr[*]/td[4]";
@@ -38,6 +41,16 @@ namespace PageObjects;
     {
         _webDriver.Navigate().GoToUrl(EMPLOIS_PAGE_URL);
         return new EmploiPage(_webDriver);
+    }
+    public GrillesPage GoToGrillesPages()
+    {
+        _webDriver.Navigate().GoToUrl(GRILLE_PAGE_URL);
+        return new GrillesPage(_webDriver); 
+    }
+    public AnnéesPage GoToAnneePages()
+    {
+        _webDriver.Navigate().GoToUrl(ANNEE_PAGE_URL);
+        return new AnnéesPage(_webDriver);
     }
 
     public IWebElement WaitForElementIsVisible(By value, string elementName = null)
