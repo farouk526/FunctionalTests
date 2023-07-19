@@ -4,8 +4,11 @@ using OpenQA.Selenium.DevTools;
 using OpenQA.Selenium.DevTools.V107.Network;
 using OpenQA.Selenium.Internal;
 using OpenQA.Selenium.Support.UI;
+using PageObjects.Comptabilite_Generale.Ecriture;
+using PageObjects.Comptabilite_Generale.Parametres;
 using PageObjects.paie.parametres;
 using PageObjects.PARAMBASE.Autres_paramètres;
+using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using Tests.paie.parametre.Emplois;
@@ -26,9 +29,13 @@ namespace PageObjects;
     private const string EMPLOIS_PAGE_URL = "http://197.13.18.37:5000/app/paie/parametres/emploi/emploi-list";
     private const string GRILLE_PAGE_URL = "http://197.13.18.37:5000/app/paie/parametres/grille/grille-list";
     private const string ANNEE_PAGE_URL = "http://197.13.18.37:5000/app/param-base/autres-params/annee/annees-list";
+    private const string Nouvelle_Ecriture_Comptable_PAGE_URL = "http://197.13.18.37:5000/app/comptabilite-generale/ecritures/new-ecriture";
+    private const string JOURNAUX_COMPTABLES_PAGE_URL = "http://197.13.18.37:5000/app/comptabilite-generale/parametres/journal/journal-list";
+    private const string LISTE_DES_ANNEXES_PAGE_URL = "http://197.13.18.37:5000/app/comptabilite-generale/parametres/decempannexe/decempannexe-list";
     private const string PAGES_NUMBERS = "/html/body/app-root/app-layout/div/div[2]/div/app-emploi/tsi-generic-crud/div/tsi-generic-grid/p-table/div/p-paginator/div/span[2]/button";
     private const string NEXT_BUTTON = "//*[@id=\"pr_id_4\"]/p-paginator/div/button[3]";
     private const string ROW_NUMBER = "//*[@id=\"pr_id_4-table\"]/tbody/tr[*]/td[4]";
+    private const string COL_NUMBER = "//*[@id=\"pr_id_4-table\"]/tbody/tr[1]/td[*]";
     private const string PAGE_SIZE = "//*[@id=\"pr_id_5_label\"]";
     private const string ALL_DATA_STRING = "//*[@id=\"pr_id_4\"]/div[3]";
     public HomePage GoToHomePage()
@@ -42,6 +49,7 @@ namespace PageObjects;
         _webDriver.Navigate().GoToUrl(EMPLOIS_PAGE_URL);
         return new EmploiPage(_webDriver);
     }
+
     public GrillesPage GoToGrillesPages()
     {
         _webDriver.Navigate().GoToUrl(GRILLE_PAGE_URL);
@@ -51,6 +59,21 @@ namespace PageObjects;
     {
         _webDriver.Navigate().GoToUrl(ANNEE_PAGE_URL);
         return new AnnéesPage(_webDriver);
+    }
+    public Nouvelle_Ecriture_ComptablePage GoToNvleEcritureComptablePage()
+    {
+        _webDriver.Navigate().GoToUrl(Nouvelle_Ecriture_Comptable_PAGE_URL);
+        return new Nouvelle_Ecriture_ComptablePage(_webDriver);
+    }
+    public JournauxComptablesPage GoToJornauxComptable()
+    {
+        _webDriver.Navigate().GoToUrl(JOURNAUX_COMPTABLES_PAGE_URL);
+        return new JournauxComptablesPage(_webDriver);
+    }
+    public ListeDesAnnexesPage GoToListeDesAnnexes()
+    {
+        _webDriver.Navigate().GoToUrl(LISTE_DES_ANNEXES_PAGE_URL);
+        return new ListeDesAnnexesPage(_webDriver);
     }
 
     public IWebElement WaitForElementIsVisible(By value, string elementName = null)
@@ -84,6 +107,7 @@ namespace PageObjects;
                 throw new Exception($"L'element {elementName} n'est pas visible dans la page.");
             }
             else
+            
             {
                 throw new Exception($"L'element {value} n'est pas visible dans la page.");
             }
@@ -137,7 +161,16 @@ namespace PageObjects;
     {
         Thread.Sleep(2000);
         var rows = _webDriver.FindElements(By.XPath(ROW_NUMBER));
+
+        
         return rows.Count;
+    }
+    public int GetNumberOfCols()
+    {
+        var cols = _webDriver.FindElements(By.XPath(COL_NUMBER));
+        return cols.Count;
+
+
     }
 
     public void GoToNextPage()
@@ -149,5 +182,6 @@ namespace PageObjects;
     { 
         ((IJavaScriptExecutor)_webDriver).ExecuteScript("window.scrollTo(0, 0);");
     }
+   
 }
 

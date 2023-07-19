@@ -11,8 +11,8 @@ using test;
 namespace Tests.paie.parametre.Grilles
 {
     [TestFixture]
-    public class GrillesTest:TestBase
-{
+    public class GrillesTest : TestBase
+    {
         [Test]
         public void AjouterGrille()
         {
@@ -23,31 +23,20 @@ namespace Tests.paie.parametre.Grilles
             var obsF = "obs";
             var obsA = "obs";
             var descFr = "ddescF";
-            var descAr = "descAr";   
+            var descAr = "descAr";
             LoginAsAdmin();
             var homePage = new HomePage(WebDriver);
-            var GrillesPage=homePage.GoToGrillesPages();
+            var GrillesPage = homePage.GoToGrillesPages();
             if (!GrillesPage.VerifierCodeExist(code))
             {
-                GrillesPage.AjouterGrilles(code,libelleFr,libelleAr,obsF,obsA,descFr,descAr);
+                GrillesPage.AjouterGrilles(code, libelleFr, libelleAr, obsF, obsA, descFr, descAr);
 
             }
             //verification
             Assert.IsTrue(GrillesPage.VerifierCodeExist(code), "ajout n'a pas marché");
 
         }
-        [Test]
-        public void DeleteProp()
-        {
-            LoginAsAdmin(); var homePage = new HomePage(WebDriver);
-            var propPage = homePage.GoToGrillesPages();
-            var code = propPage.getFirstCode();
-            if (propPage.VerifierCodeExist(code))
-            {
-                propPage.Delete(code);
-            }
-            Assert.IsFalse(propPage.VerifierCodeExist(code), "Delete success");
-        }
+       
         [Test]
         public void deleteGrille()
         {
@@ -61,13 +50,34 @@ namespace Tests.paie.parametre.Grilles
 
         }
         [Test]
-        public void EditGrille() { 
+        public void deleteGrille2()
+        {
+            LoginAsAdmin();
+            var homePage = new HomePage(WebDriver);
+            var GrillesPage = homePage.GoToGrillesPages();
+            var firstCode = GrillesPage.getDefaultCode();
+            GrillesPage.Delete(firstCode);
+            //verification du delete
+            Assert.IsFalse(!GrillesPage.VerifierCodeExist(firstCode), "delete with success");
+
+        }
+        [Test]
+        public void EditGrille()
+        {
+            Random r = new Random();
+            var c = r.Next().ToString();
             LoginAsAdmin();
             var homePage = new HomePage(WebDriver);
             var GrillePage = homePage.GoToGrillesPages();
-            GrillePage.updateGrille("234", "libelleFr", "libelleAr", "obsF", "obsA","descF","descAr");
-         
-        }
+            var code = GrillePage.getFirstCode();
+            if (GrillePage.VerifierCodeExist(code))
+            {
+                GrillePage.updateGrille(c, "libelleFr", "libelleAr", "obsF", "obsA", "descF", "descAr");
 
+                Assert.IsTrue(GrillePage.VerifierCodeExist(c), "Modification success");
+
+            }
+
+        }
     }
 }

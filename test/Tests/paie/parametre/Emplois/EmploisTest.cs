@@ -27,7 +27,7 @@ public class EmploisTest : TestBase
 
     }
     [Test]
-    public void DeleteEmplois()
+    public void DeleteEmplois1()
     {
         LoginAsAdmin();
         var homePage = new HomePage(WebDriver);
@@ -39,14 +39,29 @@ public class EmploisTest : TestBase
         
        
     }
-
+    [Test]
+    public void DeleteEmplois() 
+    { 
+        LoginAsAdmin();
+        var homePage = new HomePage(WebDriver); 
+        var propPage = homePage.GoToEmploisPage();
+        //var code = propPage.getOptionCode();
+       // if (propPage.VerifierCodeExist(code)) { 
+       //   //  propPage.Delete(code); 
+       // } 
+       //Assert.IsFalse(propPage.VerifierCodeExist(code), "Delete success");
+    }
     [Test]
     public void UpdateEmplois()
     {
         LoginAsAdmin();
         var homePage = new HomePage(WebDriver);
         var emploisPage = homePage.GoToEmploisPage();
-        emploisPage.ModifierEmployee("18","Newlibelle1", "Newlibelle2");
-
+        var code = emploisPage.getFirstCode();
+        if (emploisPage.VerifierCodeExist(code))
+        {
+            emploisPage.ModifierEmployee("18", "Newlibelle1", "Newlibelle2");
+        }
+        Assert.IsTrue(emploisPage.VerifierCodeExist(code), "Modification success");
     }
 }

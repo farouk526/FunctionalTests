@@ -22,7 +22,7 @@ public abstract class TestBase
     private const string LOGIN_INPUT = "email1";
     private const string PASSWORD_INPUT = "//*[@id=\"password1\"]/div/input";
     private const string LOGIN = "Administrateur";
-    private const string PASSWORD = "1234@Test";
+    private const string PASSWORD = "";
     private const string LOGIN_BUTTON = "/html/body/app-root/app-account/app-login/div/div/div/div/div[2]/button";
     private const string HOME_PAGE_URL = "http://197.13.18.37:5000/app/home";
 

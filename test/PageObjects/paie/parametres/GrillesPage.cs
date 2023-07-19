@@ -158,5 +158,10 @@ namespace PageObjects.paie.parametres
             var firstCode = WaitForElementIsVisible(By.XPath(FIRST_CODE));
             return firstCode.Text;
         }
+        public string getDefaultCode()
+        {
+            var firstCode = WaitForElementIsVisible(By.XPath(FIRST_CODE));
+            return firstCode.Text;
+        }
     }
 }
